@@ -1,0 +1,36 @@
+{
+  "titulo": "CUTE & FAKE",
+
+  "drive": {
+    "carpeta_id": "PEGA_AQUI_EL_ID_DE_LA_CARPETA_MEDIA",
+    "_nota": "El ID es lo que va después de /folders/ en la URL de la carpeta. Las credenciales NO van aquí: van en los secrets de GitHub (ver README)."
+  },
+
+  "zona_horaria": "Europe/Madrid",
+  "semilla": 7,
+
+  "portada": {
+    "_nota": "Tamaños: 1 = ocupa toda la pantalla, 0.5 = media pantalla. 'por_pantalla' = cuántos se ven a la vez de media. 'hueco' = espacio mínimo entre dos elementos (en pantallas). Se pueden probar en directo abriendo la web con ?ajustes al final de la dirección.",
+    "limite_movil_px": 700,
+    "movil": {
+      "iconos_por_pantalla": 1.3,
+      "iconos_tamano": [0.35, 0.75],
+      "fondos_por_pantalla": 1.2,
+      "fondos_tamano": [0.3, 1.0],
+      "hueco": 0.08
+    },
+    "escritorio": {
+      "iconos_por_pantalla": 1.6,
+      "iconos_tamano": [0.22, 0.5],
+      "fondos_por_pantalla": 1.3,
+      "fondos_tamano": [0.25, 0.95],
+      "hueco": 0.06
+    }
+  },
+
+  "imagen_lado_max": 2000,
+  "calidad_jpg": 85,
+  "video_lado_max": 1280,
+  "video_crf": 26,
+  "video_mb_sin_recomprimir": 15
+}

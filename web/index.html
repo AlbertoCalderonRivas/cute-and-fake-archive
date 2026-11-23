@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CUTE &amp; FAKE</title>
+  <link rel="preload" href="fuentes/jost-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <!-- Portada: dos capas que se mueven en sentidos opuestos -->
+  <div id="fondo" aria-hidden="true"><div class="capa"></div></div>
+  <main id="portada">
+    <h1 id="titulo-portada" class="titulo-vertical"></h1>
+    <div id="iconos"></div>
+  </main>
+
+  <!-- Página de carpeta -->
+  <section id="pagina" hidden>
+    <a id="volver" href="#/" aria-label="Volver">
+      <svg viewBox="0 0 40 24" aria-hidden="true"><path d="M38 12H4M13 2 3 12l10 10" fill="none" stroke="currentColor" stroke-width="3.2"/></svg>
+    </a>
+    <h1 id="titulo-pagina" class="titulo-vertical"></h1>
+    <div id="cuadricula"></div>
+  </section>
+
+  <div id="etiqueta" aria-hidden="true"></div>
+  <div id="visor" hidden><img alt=""></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

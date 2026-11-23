@@ -1,0 +1,32 @@
+CÓMO ACTUALIZAR LA WEB 
+============================================================================================
+
+Todo lo que subas a esta carpeta aparece en la web solo, unos 10 minutos después.
+No hace falta avisar a nadie.
+
+CADA CARPETA ES UN POST
+  · El nombre de la carpeta es el título.
+  · Si le pones un número delante ("03 Lili") sirve para ordenar y no se ve en la web.
+
+DENTRO DE CADA CARPETA
+  · Un archivo llamado "icono" (gif, png, jpg o mp4) es lo que se ve en la portada.
+    Si no pones ninguno, se usa la primera imagen o vídeo que haya.
+
+  · Si dentro hay varias cosas (fotos, vídeos, textos, PDFs…) o una subcarpeta,
+    al hacer clic en el icono se abre una página con todo eso.
+  · Si dentro hay varias subcarpetas, cada una sale como una tarjeta con su propia página.
+  · Si dentro solo hay un icono y un documento con un enlace (solo la URL),
+    al hacer clic se abre ese enlace.
+  · Si dentro solo hay una imagen o un vídeo (sin "icono"), se ve en la portada
+    y no pasa nada al hacer clic.
+
+ENLACES
+  · Crea un Documento de Google y pega dentro SOLO la URL.
+
+QUÉ NO SE PUBLICA
+  · Todo lo que empieza por "_" (guion bajo). Úsalo para borradores.
+  · La carpeta "_fondo" es especial: sus imágenes son el fondo de la portada.
+
+¿HA FUNCIONADO?
+  · Abre el archivo "_ESTADO.txt" de esta carpeta: dice cuándo se actualizó
+    y si algún archivo ha dado problemas.

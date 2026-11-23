@@ -1,0 +1,126 @@
+@font-face {
+  font-family: "Jost";
+  src: url("fuentes/jost-latin-700-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Jost";
+  src: url("fuentes/jost-latin-800-normal.woff2") format("woff2");
+  font-weight: 800;
+  font-display: swap;
+}
+
+:root {
+  /* Futura si el ordenador la tiene (Mac), si no Jost, que es casi igual y libre */
+  --fuente: "Futura", "Futura PT", "Jost", "Century Gothic", sans-serif;
+  --tinta: #000;
+  --papel: #fff;
+  --hueco: clamp(14px, 2vw, 28px);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--papel); color: var(--tinta); font-family: var(--fuente); font-weight: 700; }
+a { color: inherit; }
+img, video { display: block; max-width: 100%; }
+[hidden] { display: none !important; }
+
+/* ---------- título vertical (de abajo arriba) ---------- */
+.titulo-vertical {
+  margin: 0;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-weight: 700;
+  line-height: .82;
+  letter-spacing: -.01em;
+  white-space: nowrap;
+  text-transform: uppercase;
+  font-size: 90px; /* app.js lo ajusta para que quepa */
+}
+
+/* ---------- portada ---------- */
+#fondo { position: fixed; inset: 0; overflow: hidden; z-index: 0; pointer-events: none; }
+#fondo .capa { position: absolute; left: 0; top: 0; width: 100%; will-change: transform; }
+#fondo .capa > * { position: absolute; }
+#fondo img, #fondo video { width: 100%; height: 100%; object-fit: cover; }
+
+#portada { position: relative; z-index: 1; }
+#titulo-portada { position: absolute; left: clamp(8px, 1.2vw, 20px); top: clamp(8px, 2vh, 24px); z-index: 3; pointer-events: none; }
+#iconos { position: relative; width: 100%; }
+
+.icono { position: absolute; display: block; text-decoration: none; }
+.icono img, .icono video { width: 100%; height: 100%; object-fit: contain; }
+.icono.media { cursor: default; }
+.icono.clicable { cursor: pointer; transition: transform .25s cubic-bezier(.3,1.6,.5,1); }
+.icono.clicable:hover { transform: scale(1.04) rotate(-1.5deg); }
+.sin-icono {
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  width: 100%; height: 100%; padding: 12px; border: 3px solid var(--tinta); background: var(--papel);
+  text-transform: uppercase; font-size: clamp(14px, 1.4vw, 22px); line-height: 1;
+}
+
+/* etiqueta que sigue al ratón */
+#etiqueta {
+  position: fixed; left: 0; top: 0; z-index: 50; pointer-events: none;
+  padding: 2px 6px; background: var(--papel); font-size: 14px; text-transform: lowercase;
+  opacity: 0; transition: opacity .12s; white-space: nowrap;
+}
+#etiqueta.visible { opacity: 1; }
+
+/* ---------- página de carpeta ---------- */
+#pagina { min-height: 100vh; padding: var(--hueco); padding-left: calc(var(--ancho-titulo, 110px) + var(--hueco) * 2); }
+#titulo-pagina { position: fixed; left: clamp(8px, 1.2vw, 20px); top: calc(clamp(8px, 2vh, 24px) + 46px); }
+#volver { position: fixed; left: clamp(8px, 1.2vw, 20px); top: clamp(8px, 2vh, 24px); width: 40px; height: 30px; z-index: 5; color: var(--tinta); }
+#volver svg { width: 40px; height: 24px; }
+#volver:hover { transform: translateX(-4px); }
+
+#cuadricula { columns: 3 260px; column-gap: var(--hueco); }
+#cuadricula > * { break-inside: avoid; margin: 0 0 var(--hueco); display: block; }
+#cuadricula img.foto { width: 100%; height: auto; cursor: zoom-in; }
+#cuadricula video { width: 100%; height: auto; background: #f2f2f2; }
+
+.texto {
+  max-height: 70vh; overflow: auto; padding: 18px 20px; border: 3px solid var(--tinta);
+  font-weight: 400; font-size: 16px; line-height: 1.45; font-family: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+}
+.texto h2, .texto h3 { font-family: var(--fuente); font-weight: 700; text-transform: uppercase; line-height: 1; margin: 0 0 .6em; }
+.texto h2 { font-size: 26px; } .texto h3 { font-size: 19px; }
+.texto p { margin: 0 0 .8em; }
+.texto a { text-decoration-thickness: 2px; }
+
+.pdf { position: relative; text-decoration: none; }
+.pdf img { width: 100%; border: 1px solid #ddd; }
+.pdf .marca, .enlace .marca { position: absolute; right: 8px; bottom: 8px; padding: 2px 8px; background: var(--tinta); color: var(--papel); font-size: 14px; }
+.pdf.sin-miniatura { aspect-ratio: 3 / 4; border: 3px solid var(--tinta); }
+
+.enlace { position: relative; display: flex !important; align-items: center; gap: 10px; padding: 14px 16px; border: 3px solid var(--tinta); text-decoration: none; font-size: 15px; overflow-wrap: anywhere; padding-right: 44px; }
+.enlace svg { flex: none; width: 30px; height: 30px; }
+.enlace:hover, .pdf:hover .marca { background: var(--tinta); color: var(--papel); }
+
+.tarjeta { text-decoration: none; }
+.tarjeta .cara { display: block; }
+.tarjeta .cara img, .tarjeta .cara video { width: 100%; height: auto; }
+.tarjeta .cara .sin-icono { aspect-ratio: 1; }
+.tarjeta .nombre { display: block; margin-top: 6px; font-size: 18px; text-transform: uppercase; line-height: 1; }
+.tarjeta.clicable:hover .nombre { text-decoration: underline; text-decoration-thickness: 3px; }
+
+/* visor de imágenes */
+#visor { position: fixed; inset: 0; z-index: 100; background: rgba(255,255,255,.96); display: flex; align-items: center; justify-content: center; cursor: zoom-out; padding: 3vmin; }
+#visor img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+@media (max-width: 700px) {
+  #cuadricula { columns: 2 110px; }
+  #pagina { padding-left: calc(var(--ancho-titulo, 60px) + var(--hueco) + 8px); }
+  .texto { font-size: 15px; }
+}
+
+/* ---------- panel de ajustes (solo con ?ajustes) ---------- */
+#ajustes { position: fixed; right: 10px; bottom: 10px; z-index: 200; max-width: min(360px, calc(100vw - 20px)); font-family: system-ui, sans-serif; font-weight: 400; font-size: 13px; }
+#ajustes button { font: inherit; font-weight: 700; cursor: pointer; background: var(--tinta); color: var(--papel); border: 0; padding: 8px 12px; }
+#ajustes .ajustes-boton { display: block; margin-left: auto; font-family: var(--fuente); text-transform: uppercase; }
+.ajustes-cuerpo { margin-top: 6px; padding: 12px; background: var(--papel); border: 3px solid var(--tinta); max-height: 55vh; overflow: auto; }
+.ajustes-modo { margin: 0 0 8px; font-weight: 700; }
+.ajustes-fila { display: grid; grid-template-columns: 1fr 1.2fr 2.6em; gap: 8px; align-items: center; margin-bottom: 6px; }
+.ajustes-fila input[type=number] { grid-column: span 2; width: 100%; }
+.ajustes-fila output { text-align: right; font-variant-numeric: tabular-nums; }
+.ajustes-json { margin: 8px 0 0; padding: 8px; background: #f3f3f3; font-size: 11px; white-space: pre-wrap; user-select: all; }
