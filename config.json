@@ -2,7 +2,7 @@
   "titulo": "CUTE & FAKE",
 
   "drive": {
-    "carpeta_id": "PEGA_AQUI_EL_ID_DE_LA_CARPETA_MEDIA",
+    "carpeta_id": "153rDKHY7HelbuAVKv8dTL6H9l1XrN0Qe",
     "_nota": "El ID es lo que va después de /folders/ en la URL de la carpeta. Las credenciales NO van aquí: van en los secrets de GitHub (ver README)."
   },
 
@@ -17,14 +17,14 @@
       "iconos_tamano": [0.35, 0.75],
       "fondos_por_pantalla": 1.2,
       "fondos_tamano": [0.3, 1.0],
-      "hueco": 0.08
+      "hueco": 0.48
     },
     "escritorio": {
       "iconos_por_pantalla": 1.6,
-      "iconos_tamano": [0.22, 0.5],
+      "iconos_tamano": [0.22, 0.65],
       "fondos_por_pantalla": 1.3,
-      "fondos_tamano": [0.25, 0.95],
-      "hueco": 0.06
+      "fondos_tamano": [0.25, 0.85],
+      "hueco": 0.56
     }
   },
 
