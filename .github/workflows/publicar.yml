@@ -28,9 +28,9 @@ jobs:
       RCLONE_CONFIG_DRIVE_SCOPE: drive
       RCLONE_CONFIG_DRIVE_SERVICE_ACCOUNT_CREDENTIALS: ${{ secrets.GDRIVE_SERVICE_ACCOUNT }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
@@ -44,8 +44,41 @@ jobs:
       - name: Leer config.json
         run: echo "RCLONE_CONFIG_DRIVE_ROOT_FOLDER_ID=$(jq -r '.drive.carpeta_id' config.json)" >> "$GITHUB_ENV"
 
+      # Revisa la conexión con Drive y, si falla, explica en castellano qué está mal
+      - name: Comprobar la conexión con Drive
+        run: |
+          fallo() { echo "::error title=Conexión con Drive::$1"; exit 1; }
+
+          if [ -z "$RCLONE_CONFIG_DRIVE_SERVICE_ACCOUNT_CREDENTIALS" ]; then
+            fallo "No existe el secret GDRIVE_SERVICE_ACCOUNT (o está vacío). Créalo en Settings → Secrets and variables → Actions, con ese nombre exacto."
+          fi
+          EMAIL=$(python3 -c 'import json,os; print(json.loads(os.environ["RCLONE_CONFIG_DRIVE_SERVICE_ACCOUNT_CREDENTIALS"])["client_email"])' 2>/dev/null) \
+            || fallo "El secret GDRIVE_SERVICE_ACCOUNT no es un JSON válido. Ábrelo con el bloc de notas y pega TODO el contenido, desde la primera { hasta la última }."
+          echo "Cuenta de servicio: $EMAIL"
+
+          case "$RCLONE_CONFIG_DRIVE_ROOT_FOLDER_ID" in
+            ""|null|PEGA_AQUI*|*/*|*\?*) fallo "El carpeta_id de config.json no es válido ('$RCLONE_CONFIG_DRIVE_ROOT_FOLDER_ID'). Tiene que ser solo el código que va después de /folders/ en la URL de la carpeta, sin nada más." ;;
+          esac
+          echo "Carpeta: $RCLONE_CONFIG_DRIVE_ROOT_FOLDER_ID"
+
+          if ! SALIDA=$(rclone lsf drive: --max-depth 1 2>&1); then
+            echo "$SALIDA"
+            case "$SALIDA" in
+              *accessNotConfigured*|*"has not been used"*|*SERVICE_DISABLED*)
+                fallo "La Google Drive API no está habilitada en el proyecto de Google Cloud. Búscala en console.cloud.google.com y pulsa Habilitar (puede tardar unos minutos en activarse)." ;;
+              *notFound*|*"not found"*|*"File not found"*)
+                fallo "La cuenta de servicio no ve la carpeta. Comparte la carpeta media con $EMAIL como Editor, y comprueba que el carpeta_id es el de esa carpeta." ;;
+              *invalid_grant*|*"Invalid JWT"*|*"private key"*|*PEM*)
+                fallo "La clave de la cuenta de servicio no es válida (quizá se borró o se pegó cortada). Crea una clave JSON nueva y vuelve a pegarla en el secret." ;;
+              *)
+                fallo "No se ha podido conectar con Drive. Mira el texto de arriba para ver el error exacto." ;;
+            esac
+          fi
+          echo "Conexión correcta. Contenido de la carpeta:"
+          echo "$SALIDA"
+
       - name: Recuperar conversiones anteriores
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: .cache
           key: media-${{ github.run_id }}
@@ -71,9 +104,9 @@ jobs:
           fi
           rclone copyto ESTADO.txt drive:_ESTADO.txt
 
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: site
       - id: deploy
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
