@@ -1,0 +1,79 @@
+name: Publicar web
+
+on:
+  repository_dispatch:
+    types: [drive-actualizado]   # lo lanza el Apps Script cuando cambia la carpeta de Drive
+  workflow_dispatch:             # botón "Run workflow" para lanzarlo a mano
+  push:
+    branches: [main]             # y cuando cambias el código
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:                     # nunca dos publicaciones a la vez; la última espera
+  group: publicar
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    env:
+      # rclone se configura con variables de entorno: las credenciales nunca tocan el repo
+      RCLONE_CONFIG_DRIVE_TYPE: drive
+      RCLONE_CONFIG_DRIVE_SCOPE: drive
+      RCLONE_CONFIG_DRIVE_SERVICE_ACCOUNT_CREDENTIALS: ${{ secrets.GDRIVE_SERVICE_ACCOUNT }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Instalar herramientas
+        run: |
+          pip install -r requirements.txt
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          curl -fsSL https://rclone.org/install.sh | sudo bash
+
+      - name: Leer config.json
+        run: echo "RCLONE_CONFIG_DRIVE_ROOT_FOLDER_ID=$(jq -r '.drive.carpeta_id' config.json)" >> "$GITHUB_ENV"
+
+      - name: Recuperar conversiones anteriores
+        uses: actions/cache@v4
+        with:
+          path: .cache
+          key: media-${{ github.run_id }}
+          restore-keys: media-
+
+      - name: Descargar la carpeta media de Drive
+        run: |
+          rclone sync drive: media \
+            --drive-export-formats docx \
+            --drive-skip-shortcuts \
+            --exclude "/_ESTADO.txt" \
+            --fast-list -v
+
+      - name: Generar la web
+        run: python build.py --media media --salida site --estado ESTADO.txt
+
+      - name: Escribir _ESTADO.txt en Drive
+        if: always()
+        continue-on-error: true
+        run: |
+          if [ ! -s ESTADO.txt ]; then
+            printf '❌ La última actualización ha fallado (%s).\nLa web sigue mostrando la versión anterior. Avisa a quien mantiene la web.\n' "$(TZ=Europe/Madrid date '+%d/%m/%Y %H:%M')" > ESTADO.txt
+          fi
+          rclone copyto ESTADO.txt drive:_ESTADO.txt
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deploy
+        uses: actions/deploy-pages@v4
