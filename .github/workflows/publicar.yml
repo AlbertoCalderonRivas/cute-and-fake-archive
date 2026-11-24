@@ -17,11 +17,9 @@ concurrency:                     # nunca dos publicaciones a la vez; la última 
   cancel-in-progress: false
 
 jobs:
-  publicar:
+  # 1) Descarga Drive, genera la web y la empaqueta
+  construir:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
     env:
       # rclone se configura con variables de entorno: las credenciales nunca tocan el repo
       RCLONE_CONFIG_DRIVE_TYPE: drive
@@ -86,6 +84,7 @@ jobs:
 
       - name: Descargar la carpeta media de Drive
         run: |
+          mkdir -p media   # si Drive está vacío, rclone no crea la carpeta
           rclone sync drive: media \
             --drive-export-formats docx \
             --drive-skip-shortcuts \
@@ -108,5 +107,15 @@ jobs:
       - uses: actions/upload-pages-artifact@v5
         with:
           path: site
+
+  # 2) Publica el paquete. Va en un trabajo aparte (como recomienda GitHub) para que
+  #    empiece cuando el paquete ya está disponible del todo.
+  publicar:
+    needs: construir
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
       - id: deploy
         uses: actions/deploy-pages@v5
