@@ -7,7 +7,7 @@
   },
 
   "zona_horaria": "Europe/Madrid",
-  "semilla": 7,
+  "semilla": 8,
 
   "portada": {
     "_nota": "Tamaños: 1 = ocupa toda la pantalla, 0.5 = media pantalla. 'por_pantalla' = cuántos se ven a la vez de media. 'hueco' = espacio mínimo entre dos elementos (en pantallas). Se pueden probar en directo abriendo la web con ?ajustes al final de la dirección.",
