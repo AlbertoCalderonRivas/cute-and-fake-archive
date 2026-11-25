@@ -14,14 +14,14 @@
     "limite_movil_px": 700,
     "movil": {
       "iconos_por_pantalla": 1.6,
-      "iconos_tamano": [0.45, 0.75],
+      "iconos_tamano": [0.25, 0.60],
       "fondos_por_pantalla": 1.2,
       "fondos_tamano": [1.0, 1.0],
       "hueco": 0.28
     },
     "escritorio": {
       "iconos_por_pantalla": 1.8,
-      "iconos_tamano": [0.42, 0.65],
+      "iconos_tamano": [0.32, 0.65],
       "fondos_por_pantalla": 1.3,
       "fondos_tamano": [0.75, 1.00],
       "hueco": 0.36
