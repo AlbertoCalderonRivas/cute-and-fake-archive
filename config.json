@@ -14,7 +14,7 @@
     "limite_movil_px": 700,
     "movil": {
       "iconos_por_pantalla": 1.6,
-      "iconos_tamano": [0.25, 0.60],
+      "iconos_tamano": [0.45, 0.55],
       "fondos_por_pantalla": 1.2,
       "fondos_tamano": [1.0, 1.0],
       "hueco": 0.28
