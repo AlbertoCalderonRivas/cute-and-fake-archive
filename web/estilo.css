@@ -15,7 +15,7 @@
   /* Futura si el ordenador la tiene (Mac), si no Jost, que es casi igual y libre */
   --fuente: "Futura", "Futura PT", "Jost", "Century Gothic", sans-serif;
   --tinta: #ff39b9;
-  --papel:  linear-gradient(to top, #000, #fff);
+  --papel:  linear-gradient(to top, #fff, #000);
   --hueco: clamp(14px, 2vw, 28px);
 }
 
