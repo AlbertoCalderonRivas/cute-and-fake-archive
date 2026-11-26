@@ -15,22 +15,7 @@
   /* Futura si el ordenador la tiene (Mac), si no Jost, que es casi igual y libre */
   --fuente: "Futura", "Futura PT", "Jost", "Century Gothic", sans-serif;
   --tinta: #ff39b9;
-  --papel:  linear-gradient(to top,
-    /* principio (medido desde lo primero que se ve) */
-    #000 0,
-    #000 215vh,                  /* negro hasta acabar la 2ª foto */
-    #14205a 280vh,               /* azul oscuro */
-    #ff5a00 360vh,               /* naranja intenso */
-    #ffd400 410vh,               /* amarillo */
-    #fff 470vh,                  /* blanco (desde la 5ª foto, aprox.) */
-
-    /* final (medido desde lo último que se ve) */
-    #fff calc(100% - 370vh),
-    #ffd400 calc(100% - 310vh),
-    #ff5a00 calc(100% - 260vh),
-    #14205a calc(100% - 180vh),
-    #000 calc(100% - 115vh),     /* negro desde justo antes de la última foto */
-    #000 100%);
+  --papel:  linear-gradient(to top, #000, #fff);
   --hueco: clamp(14px, 2vw, 28px);
 }
 
